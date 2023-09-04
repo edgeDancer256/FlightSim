@@ -16,6 +16,7 @@ public class CollisionDetection : MonoBehaviour
     {
         if (other.CompareTag("Floor")) {
             drone.constraints = RigidbodyConstraints.FreezeAll;
+            other.attachedRigidbody.transform.position = new Vector3(0, 0, 0);
         }
     }
 }

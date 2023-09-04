@@ -8,9 +8,11 @@ public class RotorContoller : MonoBehaviour
     GameObject[] rotors;
     GameObject[] wings;
     GameObject drone;
+    GameObject anchor;
     // Start is called before the first frame update
     void Start()
     {
+        anchor = GameObject.FindGameObjectWithTag("Anchor");
         drone = GameObject.FindGameObjectWithTag("Drone"); 
         rotors  = GameObject.FindGameObjectsWithTag("Rotor");
         wings = GameObject.FindGameObjectsWithTag("Wing");
@@ -19,27 +21,27 @@ public class RotorContoller : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        rotors[0].transform.Rotate(Vector3.forward * rot_speed);
-        rotors[1].transform.Rotate(Vector3.forward * rot_speed);
-        rotors[2].transform.Rotate(Vector3.forward * rot_speed);
-        rotors[3].transform.Rotate(Vector3.forward * rot_speed);
+        rotors[0].transform.Rotate(Vector3.back * rot_speed);
+        rotors[1].transform.Rotate(Vector3.back * rot_speed);
+        rotors[2].transform.Rotate(Vector3.back * rot_speed);
+        rotors[3].transform.Rotate(Vector3.back * rot_speed);
 
 
         if (Input.GetKey(KeyCode.Q))
         {
-            drone.transform.Translate(Vector3.forward * 5.0f * Time.deltaTime);
+            anchor.transform.Translate(Vector3.forward * 5.0f * Time.deltaTime);
         }
 
         if (Input.GetKey(KeyCode.E))
         {
-            drone.transform.Translate(Vector3.back * 5.0f * Time.deltaTime);
+            anchor.transform.Translate(Vector3.back * 5.0f * Time.deltaTime);
         }
 
 
         //Going Front
         if(Input.GetKey(KeyCode.W))
         {
-            drone.transform.Translate(Vector3.left * 5.0f * Time.deltaTime);
+            anchor.transform.Translate(Vector3.left * 20.0f * Time.deltaTime);
 
             for(int i = 0; i < 4; i++) {
                 if (wings[i].transform.localEulerAngles.y > 315 || wings[i].transform.localEulerAngles.y == 0)
@@ -59,7 +61,7 @@ public class RotorContoller : MonoBehaviour
         //Going Back
         if (Input.GetKey(KeyCode.S))
         {
-            drone.transform.Translate(Vector3.right * 5.0f * Time.deltaTime);
+            anchor.transform.Translate(Vector3.right * 20.0f * Time.deltaTime);
 
             for (int i = 0; i < 4; i++)
             {
@@ -81,28 +83,45 @@ public class RotorContoller : MonoBehaviour
         //Strafe Left
         if (Input.GetKey(KeyCode.A))
         {
-            drone.transform.Translate(Vector3.up * 5.0f * Time.deltaTime);
+            anchor.transform.Translate(Vector3.up * 20.0f * Time.deltaTime);
+
+            if(drone.transform.localEulerAngles.x < 10)
+            {
+                drone.transform.Rotate(Vector3.left * 10);
+            }
 
         }
         if (Input.GetKeyUp(KeyCode.A))
         {
-
+            drone.transform.Rotate(Vector3.right * 10);
         }
 
         //Strafe Right
         if (Input.GetKey(KeyCode.D))
         {
-            if (drone.transform.localEulerAngles.x < 30 || drone.transform.localEulerAngles.y == 0)
-            {
-                drone.transform.Rotate(Vector3.left * 30);
-            }
+            anchor.transform.Translate(Vector3.down * 20.0f * Time.deltaTime);
 
-            
-            drone.transform.Translate(Vector3.down * 5.0f * Time.deltaTime);
+            if (drone.transform.localEulerAngles.x == 0)
+            {
+                drone.transform.Rotate(Vector3.right * 10);
+            }
         }
         if (Input.GetKeyUp(KeyCode.D))
         {
+            drone.transform.Rotate(Vector3.left * 10);
+        }
 
+        //Turn Left
+        if(Input.GetKey(KeyCode.LeftArrow))
+        {
+            anchor.transform.Rotate(Vector3.back * 2.5f);
+        }
+
+
+        //Turn Right
+        if (Input.GetKey(KeyCode.RightArrow))
+        {
+            anchor.transform.Rotate(Vector3.forward * 2.5f);
         }
     }
 

@@ -12,7 +12,6 @@ public class DroneFollower : MonoBehaviour
         drone = GameObject.FindGameObjectWithTag("Drone");
     }
 
-    // Update is called once per frame
     
     void FixedUpdate()
     {
